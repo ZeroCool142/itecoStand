@@ -123,7 +123,7 @@ public class IntangibleAssetsSteps {
 
     @Before
     public void setUp(){
-        driver = BrowserFactory.getDriver(BrowserFactory.Browser.IE, "http://95.128.177.26:8081/sua");
+        driver = BrowserFactory.getDriver(BrowserFactory.Browser.Chrome, "http://95.128.177.26:8081/sua");
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         loginPage = new LoginPage(driver);
         mainPage = new MainPage(driver);
