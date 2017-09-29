@@ -1,5 +1,6 @@
 package iteco.stand.page;
 
+import iteco.stand.helper.BrowserFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -86,13 +87,27 @@ public class MainPage extends Page {
     public void navigateTo(String menuItem) {
         By pathToItem = By.xpath("//nav/*/div[@id='sua-menu-navbar']//li[contains(., '" + menuItem + "')]");
         List<WebElement> menuItemElement = driver.findElements(pathToItem);
-        menuItemElement.get(0).click();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        switch (BrowserFactory.Browser.valueOf(variables.get("browser"))){
+            case IE:
+                menuItemElement.get(0).click();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                menuItemElement.get(1).click();
+                break;
+            default:
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                new Actions(driver).moveToElement(menuItemElement.get(0)).click()
+                        .moveToElement(menuItemElement.get(1)).click()
+                        .build().perform();
+                break;
         }
-        menuItemElement.get(1).click();
     }
 
     public void createButtonClick() {

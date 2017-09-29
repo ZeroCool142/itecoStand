@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class IntangibleAssetsSteps {
     WebDriver driver;
 
+    BrowserFactory.Browser browser = BrowserFactory.Browser.IE;
+
     LoginPage loginPage;
     MainPage mainPage;
     AssetPage assetPage;
@@ -40,7 +42,7 @@ public class IntangibleAssetsSteps {
 
     @Тогда("^проверить наличие актива с номером (.*)$")
     public void проверитьНаличиеАктиваСНомеромAccountNum(String accountNum) throws Throwable {
-        //mainPage.checkAssetNotInGrid(accountNum);
+        mainPage.checkAssetNotInGrid(accountNum);
     }
     @Когда("^Нажал кнопку (.*)$")
     public void нажалКнопку(String button) throws Throwable {
@@ -123,7 +125,8 @@ public class IntangibleAssetsSteps {
 
     @Before
     public void setUp(){
-        driver = BrowserFactory.getDriver(BrowserFactory.Browser.Chrome, "http://95.128.177.26:8081/sua");
+        Page.setProperty("browser", browser.toString());
+        driver = BrowserFactory.getDriver(browser, "http://95.128.177.26:8081/sua");
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         loginPage = new LoginPage(driver);
         mainPage = new MainPage(driver);
