@@ -88,14 +88,6 @@
                 <groupId>ru.yandex.qatools.allure</groupId>
                 <artifactId>allure-maven-plugin</artifactId>
                 <version>2.6</version>
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
 
