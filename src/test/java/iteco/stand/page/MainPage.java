@@ -9,11 +9,13 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import sun.security.util.PendingException;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class MainPage extends Page {
 
@@ -47,6 +49,19 @@ public class MainPage extends Page {
 
     @FindAll({@FindBy(how = How.XPATH, using = "//td[@aria-describedby='assetgrid_accountNum']")})
     private List<WebElement> accountNumCells;
+
+    @FindBy(how = How.XPATH, using = "//td[@title='Поиск']")
+    private WebElement findButton;
+
+    @FindBy(how = How.XPATH, using = "//div[@id='fbox_assetgrid']//td[@class='columns']/select")
+    private WebElement assetSelect;
+
+    @FindBy(how = How.XPATH, using = "//div[@id='fbox_assetgrid']//td[@class='data']/input")
+    private WebElement findAccountNumInput;
+
+    @FindBy(how = How.XPATH, using = "//table[@id='fbox_assetgrid_2']//a[contains(., 'Найти')]")
+    private WebElement modalFindButton;
+
 
     public void chooseOrganizationByName(String name) {
         variables.put("shortOrgName", name);
@@ -135,14 +150,28 @@ public class MainPage extends Page {
     }
 
     public void checkAssetInGrid(String accountNum) {
+        findButton.click();
+        new Select(assetSelect).selectByVisibleText("Номер лицевого счета");
+        findAccountNumInput.sendKeys(accountNum);
+        modalFindButton.click();
         accountNumCells.stream()
                 .filter(e -> e.getText().equals(accountNum))
                 .findFirst().get();
     }
     public void checkAssetNotInGrid(String accountNum) {
-        WebElement elrm = accountNumCells.stream()
-                .filter(e -> e.getText().equals(accountNum))
-                .findFirst().get();
-        if (elrm.isDisplayed()) throw new RuntimeException("Exist!");
+        findButton.click();
+        new Select(assetSelect).selectByVisibleText("Номер лицевого счета");
+        findAccountNumInput.sendKeys(accountNum);
+        modalFindButton.click();
+        WebElement accountNumCell = null;
+        try {
+            accountNumCell = accountNumCells.stream()
+                    .filter(e -> e.getText().equals(accountNum))
+                    .findFirst().get();
+            if (accountNumCell.isDisplayed()) throw new RuntimeException("Exist!");
+        } catch (NoSuchElementException e){
+            //Empty catch
+        }
+
     }
 }
