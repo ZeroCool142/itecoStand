@@ -1,6 +1,5 @@
 package iteco.stand.steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.ru.Дано;
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class IntangibleAssetsSteps {
     WebDriver driver;
 
-    BrowserFactory.Browser browser = BrowserFactory.Browser.IE;
+    BrowserFactory.Browser browser = BrowserFactory.Browser.Chrome;
 
     LoginPage loginPage;
     MainPage mainPage;
@@ -127,7 +126,7 @@ public class IntangibleAssetsSteps {
     public void setUp(){
         Page.setProperty("browser", browser.toString());
         driver = BrowserFactory.getDriver(browser, "http://95.128.177.26:8081/sua");
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         loginPage = new LoginPage(driver);
         mainPage = new MainPage(driver);
         assetPage = new AssetPage(driver);

@@ -84,11 +84,13 @@ public class FullAssetPage extends Page{
     }
 
     public void setBalanceInitialCur(String initialBalanceValue) {
+        balanceInitialCur.click();
         balanceInitialCur.clear();
         balanceInitialCur.sendKeys(initialBalanceValue);
     }
 
     public void setBalanceCur(String initialBalanceValue) {
+        balanceCur.click();
         balanceCur.clear();
         balanceCur.sendKeys(initialBalanceValue);
     }
